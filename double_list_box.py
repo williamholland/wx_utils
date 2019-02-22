@@ -29,7 +29,6 @@ class DoubleListBox(wx.Panel):
         for i in selected_item_indices:
             self.l2.Append(self.l1.GetString(i))
             self.l1.Delete(i)
-        print self.GetSelections()
 
     def _move_left(self, event):
         selected_item_indices = self.l2.GetSelections()
@@ -37,9 +36,14 @@ class DoubleListBox(wx.Panel):
             self.l1.Append(self.l2.GetString(i))
             self.l2.Delete(i)
 
-    def __init__(self, parent, choices):
+    def __init__(self, parent, choices, label=''):
         super(DoubleListBox, self).__init__(parent)
+
+        box = wx.StaticBox(self, -1, label)
+        vsizer = wx.StaticBoxSizer(box, wx.VERTICAL)
         self.sizer = wx.BoxSizer(wx.HORIZONTAL)
+        vsizer.Add(self.sizer)
+        self.sizer.AddSpacer(5)
 
         button_sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -60,13 +64,18 @@ class DoubleListBox(wx.Panel):
         button_sizer.Add(b_lleft)
 
         self.l1 = wx.ListBox(self, choices=choices, style=wx.LB_MULTIPLE)
-        self.l2 = wx.ListBox(self, choices=[], size=self.l1.GetSize(), style=wx.LB_MULTIPLE)
+        self.l2 = wx.ListBox(self, choices=[], style=wx.LB_MULTIPLE)
+        self.l1.SetMinSize((-1, 100))
+        self.l2.SetMinSize((self.l1.GetSize()[0], 100))
 
         self.sizer.Add(self.l1)
         self.sizer.Add(button_sizer)
         self.sizer.Add(self.l2)
 
-        self.SetSizerAndFit(self.sizer)
+        self.sizer.AddSpacer(5)
+        vsizer.AddSpacer(5)
+
+        self.SetSizerAndFit(vsizer)
 
 class MainFrame(BaseFrame):
 
@@ -77,7 +86,7 @@ class MainFrame(BaseFrame):
             'test1',
             'test2',
         ]
-        self.lst = DoubleListBox(self.main_panel, choices=items)
+        self.lst = DoubleListBox(self.main_panel, choices=items, label='Double list box')
         self.add_to_main_panel(self.lst)
 
 if __name__ == "__main__":
