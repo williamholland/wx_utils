@@ -3,12 +3,17 @@ import wx
 class BaseFrame(wx.Frame):
     ''' base class for simple guis built on wx frames '''
 
+    # name of the window
     name = None
 
+    # starting status bar
     _status = 'Loading...'
 
     # space between each element added
     spacing = 5
+
+    width = 350
+    height = 200
 
     @property
     def status(self):
@@ -39,7 +44,8 @@ class BaseFrame(wx.Frame):
 
     def __init__(self):
         title = self.name if self.name is not None else self.__class__.__name__
-        super(BaseFrame, self).__init__(None, title=title, size=(350,200))
+        size = (self.width, self.height)
+        super(BaseFrame, self).__init__(None, title=title, size=size)
 
         self.init_menu_bar()
         self.init_status_bar()

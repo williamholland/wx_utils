@@ -90,6 +90,8 @@ class DoubleListBox(wx.Panel):
 class MainFrame(BaseFrame):
 
     name = 'Double List Box Test'
+    height = 200
+    width = 240
 
     def init_gui(self):
         items = [
