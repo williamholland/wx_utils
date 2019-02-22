@@ -37,18 +37,22 @@ class BaseFrame(wx.Frame):
         self.main_sizer.Add(obj, wx.EXPAND)
         self.main_sizer.AddSpacer(self.spacing)
 
-    def __init__(self, title):
+    def __init__(self):
+        title = self.name if self.name is not None else self.__class__.__name__
         super(BaseFrame, self).__init__(None, title=title, size=(350,200))
 
         self.init_menu_bar()
         self.init_status_bar()
 
         self.main_panel = wx.Panel(self)
+        self.root_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.main_sizer = wx.BoxSizer(wx.VERTICAL)
         self.main_sizer.AddStretchSpacer()
+        self.root_sizer.AddSpacer(self.spacing)
         self.main_sizer.AddSpacer(self.spacing)
 
-        self.main_panel.SetSizer(self.main_sizer)
+        self.root_sizer.Add(self.main_sizer)
+        self.main_panel.SetSizer(self.root_sizer)
 
         self.init_gui()
 
