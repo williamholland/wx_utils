@@ -12,6 +12,13 @@ class DoubleListBox(wx.Panel):
         '''Fill an array of ints with the positions of the currently selected items.'''
         return self.l2.GetItems()
 
+    def Set(self, items):
+        '''Replaces the current control contents with the given items.'''
+        for item in items:
+            i = self.l1.GetItems().index(item)
+            self.l1.Delete(i)
+        self.l2.Set(items)
+
     def _all_right(self, event):
         items = self.l1.GetItems()
         for item in items:
@@ -65,8 +72,11 @@ class DoubleListBox(wx.Panel):
 
         self.l1 = wx.ListBox(self, choices=choices, style=wx.LB_MULTIPLE)
         self.l2 = wx.ListBox(self, choices=[], style=wx.LB_MULTIPLE)
-        self.l1.SetMinSize((-1, 100))
-        self.l2.SetMinSize((self.l1.GetSize()[0], 100))
+
+        min_width = max(self.l1.GetSize()[0], self.l2.GetSize()[0])
+
+        self.l1.SetMinSize((min_width, 100))
+        self.l2.SetMinSize((min_width, 100))
 
         self.sizer.Add(self.l1)
         self.sizer.Add(button_sizer)
@@ -87,6 +97,7 @@ class MainFrame(BaseFrame):
             'test2',
         ]
         self.lst = DoubleListBox(self.main_panel, choices=items, label='Double list box')
+        self.lst.Set(['test2','test1'])
         self.add_to_main_panel(self.lst)
 
 if __name__ == "__main__":
