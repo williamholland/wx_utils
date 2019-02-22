@@ -17,6 +17,9 @@ class FileBox(wx.Panel):
         '''Returns the full path (directory and filename) of the selected file.'''
         return self.filepath
 
+    def SetPath(self, value):
+        self.filepath = value
+
     def _find(self, event):
         with wx.FileDialog(self,
                            message=self.message,
@@ -34,6 +37,7 @@ class FileBox(wx.Panel):
     @filepath.setter
     def filepath(self, value):
         self.text.SetValue(value)
+        self.text.SetToolTip(wx.ToolTip(self.filepath))
 
     def __init__(self, parent, label="", message=NoMessage, defaultDir="", defaultFile="", **kwargs):
         super(FileBox, self).__init__(parent)
@@ -55,6 +59,7 @@ class FileBox(wx.Panel):
         self.text = wx.TextCtrl(self, size=(200,-1))
         self.filepath = os.path.join(defaultDir, defaultFile)
         self.text.SetValue(self.filepath)
+        self.text.SetToolTip(wx.ToolTip(self.filepath))
         self.sizer.Add(self.text)
 
         button = wx.Button(self, label='Find', style=wx.BU_EXACTFIT)
@@ -75,6 +80,7 @@ class MainFrame(BaseFrame):
             self.main_panel,
             label='File box test'
         )
+        self.box.SetPath(os.path.realpath(__file__))
         self.add_to_main_panel(self.box)
 
 if __name__ == "__main__":
