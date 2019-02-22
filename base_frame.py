@@ -3,6 +3,8 @@ import wx
 class BaseFrame(wx.Frame):
     ''' base class for simple guis built on wx frames '''
 
+    name = None
+
     _status = 'Loading...'
 
     # space between each element added

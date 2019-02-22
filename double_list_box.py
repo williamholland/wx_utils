@@ -69,6 +69,9 @@ class DoubleListBox(wx.Panel):
         self.SetSizerAndFit(self.sizer)
 
 class MainFrame(BaseFrame):
+
+    name = 'Double List Box Test'
+
     def init_gui(self):
         items = [
             'test1',
@@ -79,5 +82,5 @@ class MainFrame(BaseFrame):
 
 if __name__ == "__main__":
     app = wx.App()
-    top = MainFrame("Hello World")
+    top = MainFrame()
     app.MainLoop()
